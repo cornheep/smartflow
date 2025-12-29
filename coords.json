@@ -31,6 +31,14 @@
     "latitude": "14.8295782",
     "longitude": "121.0040617"
   },
+  "Guyong Santa Maria Bulacan": {
+    "latitude": "14.8364400",
+    "longitude": "120.9766353"
+  },
+  "Lalakhan Santa Maria Bulacan": {
+    "latitude": "14.8148813",
+    "longitude": "120.9465122"
+  },
   "Mag-asawang Sapa Santa Maria Bulacan": {
     "latitude": "14.8783028",
     "longitude": "120.9923028"
@@ -86,13 +94,6 @@
   "Tumana Santa Maria Bulacan": {
     "latitude": "14.8124717",
     "longitude": "120.9730783"
-  },
-  "San Francisco Santa Maria Bulacan": {
-    "latitude": null,
-    "longitude": null
-  },
-  "Bagong Buhay Santa Maria Bulacan": {
-    "latitude": null,
-    "longitude": null
   }
 }
+
