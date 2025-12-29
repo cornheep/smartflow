@@ -10,6 +10,8 @@ barangays = [
     "Cay Pombo Santa Maria Bulacan",
     "Caysio Santa Maria Bulacan",
     "Catmon Santa Maria Bulacan",
+    "Guyong Santa Maria Bulacan",
+    "Lalakhan Santa Maria Bulacan",
     "Mag-asawang Sapa Santa Maria Bulacan",
     "Mahabang Parang Santa Maria Bulacan",
     "Manggahan Santa Maria Bulacan",
@@ -24,8 +26,6 @@ barangays = [
     "Silangan Santa Maria Bulacan",
     "Tabing Ilog Santa Maria Bulacan",
     "Tumana Santa Maria Bulacan",
-    "San Francisco Santa Maria Bulacan",
-    "Bagong Buhay Santa Maria Bulacan"
 ]
 
 def get_coordinates(place):
