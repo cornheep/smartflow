@@ -1,4 +1,5 @@
 import json
+import openrouteservice
 
 with open("coords.json", "r") as coords:
     coords = json.load(coords)
@@ -16,6 +17,8 @@ try:
 
     print(f"\n{brgy_input}, Latitude: {lat}, Longitude: {long}")
 
+    client = openrouteservice.Client(key="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjdiYzQxMTY2NzVmZDQ2Mzc4Mjc0NzRkMTIxNzEwNmY3IiwiaCI6Im11cm11cjY0In0=")
+
 except(ValueError, IndexError):
-    print("putangina mo")
+    print("Invalid Input. Pick a proper number")
 
