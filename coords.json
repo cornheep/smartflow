@@ -1,99 +1,182 @@
 {
   "Bagbaguin Santa Maria Bulacan": {
-    "latitude": "14.8173505",
-    "longitude": "120.9581454"
+    "main_coord": { "latitude": 14.8173505, "longitude": 120.9581454 },
+    "bounding_box": {
+      "min_latitude": 14.8163505,
+      "max_latitude": 14.8183505,
+      "min_longitude": 120.9571454,
+      "max_longitude": 120.9591454
+    }
   },
   "Balasing Santa Maria Bulacan": {
-    "latitude": "14.8498016",
-    "longitude": "121.0027045"
+    "main_coord": { "latitude": 14.8498016, "longitude": 121.0027045 },
+    "bounding_box": {
+      "min_latitude": 14.8488016,
+      "max_latitude": 14.8508016,
+      "min_longitude": 121.0017045,
+      "max_longitude": 121.0037045
+    }
   },
   "Buenavista Santa Maria Bulacan": {
-    "latitude": "14.7963649",
-    "longitude": "120.9818568"
+    "main_coord": { "latitude": 14.7963649, "longitude": 120.9818568 },
+    "bounding_box": {
+      "min_latitude": 14.7953649,
+      "max_latitude": 14.7973649,
+      "min_longitude": 120.9808568,
+      "max_longitude": 120.9828568
+    }
   },
   "Bulac Santa Maria Bulacan": {
-    "latitude": "14.8380640",
-    "longitude": "121.0226107"
+    "main_coord": { "latitude": 14.838064, "longitude": 121.0226107 },
+    "bounding_box": {
+      "min_latitude": 14.837064,
+      "max_latitude": 14.839064,
+      "min_longitude": 121.0216107,
+      "max_longitude": 121.0236107
+    }
   },
   "Camangyanan Santa Maria Bulacan": {
-    "latitude": "14.7973296",
-    "longitude": "120.9710725"
+    "main_coord": { "latitude": 14.7973296, "longitude": 120.9710725 },
+    "bounding_box": {
+      "min_latitude": 14.7963296,
+      "max_latitude": 14.7983296,
+      "min_longitude": 120.9700725,
+      "max_longitude": 120.9720725
+    }
   },
   "Cay Pombo Santa Maria Bulacan": {
-    "latitude": "14.8524993",
-    "longitude": "120.9774665"
+    "main_coord": { "latitude": 14.8524993, "longitude": 120.9774665 },
+    "bounding_box": {
+      "min_latitude": 14.8514993,
+      "max_latitude": 14.8534993,
+      "min_longitude": 120.9764665,
+      "max_longitude": 120.9784665
+    }
   },
   "Caysio Santa Maria Bulacan": {
-    "latitude": "14.8441724",
-    "longitude": "120.9683736"
+    "main_coord": { "latitude": 14.8441724, "longitude": 120.9683736 },
+    "bounding_box": {
+      "min_latitude": 14.8431724,
+      "max_latitude": 14.8451724,
+      "min_longitude": 120.9673736,
+      "max_longitude": 120.9693736
+    }
   },
   "Catmon Santa Maria Bulacan": {
-    "latitude": "14.8295782",
-    "longitude": "121.0040617"
+    "main_coord": { "latitude": 14.8295782, "longitude": 121.0040617 },
+    "bounding_box": {
+      "min_latitude": 14.8285782,
+      "max_latitude": 14.8305782,
+      "min_longitude": 121.0030617,
+      "max_longitude": 121.0050617
+    }
   },
   "Guyong Santa Maria Bulacan": {
-    "latitude": "14.8364400",
-    "longitude": "120.9766353"
+    "main_coord": { "latitude": 14.83644, "longitude": 120.9766353 },
+    "bounding_box": {
+      "min_latitude": 14.83544,
+      "max_latitude": 14.83744,
+      "min_longitude": 120.9756353,
+      "max_longitude": 120.9776353
+    }
   },
   "Lalakhan Santa Maria Bulacan": {
-    "latitude": "14.8148813",
-    "longitude": "120.9465122"
+    "main_coord": { "latitude": 14.8148813, "longitude": 120.9465122 },
+    "bounding_box": {
+      "min_latitude": 14.8138813,
+      "max_latitude": 14.8158813,
+      "min_longitude": 120.9455122,
+      "max_longitude": 120.9475122
+    }
   },
   "Mag-asawang Sapa Santa Maria Bulacan": {
-    "latitude": "14.8783028",
-    "longitude": "120.9923028"
+    "main_coord": { "latitude": 14.8783028, "longitude": 120.9923028 },
+    "bounding_box": {
+      "min_latitude": 14.8773028,
+      "max_latitude": 14.8793028,
+      "min_longitude": 120.9913028,
+      "max_longitude": 120.9933028
+    }
   },
   "Mahabang Parang Santa Maria Bulacan": {
-    "latitude": "14.7903755",
-    "longitude": "120.9624556"
+    "main_coord": { "latitude": 14.7903755, "longitude": 120.9624556 },
+    "bounding_box": {
+      "min_latitude": 14.7893755,
+      "max_latitude": 14.7913755,
+      "min_longitude": 120.9614556,
+      "max_longitude": 120.9634556
+    }
   },
   "Manggahan Santa Maria Bulacan": {
-    "latitude": "14.8521005",
-    "longitude": "120.9569825"
+    "main_coord": { "latitude": 14.8521005, "longitude": 120.9569825 },
+    "bounding_box": {
+      "min_latitude": 14.8511005,
+      "max_latitude": 14.8531005,
+      "min_longitude": 120.9559825,
+      "max_longitude": 120.9579825
+    }
   },
   "Parada Santa Maria Bulacan": {
-    "latitude": "14.8108268",
-    "longitude": "120.9855753"
+    "main_coord": { "latitude": 14.8108268, "longitude": 120.9855753 },
+    "bounding_box": {
+      "min_latitude": 14.8098268,
+      "max_latitude": 14.8118268,
+      "min_longitude": 120.9845753,
+      "max_longitude": 120.9865753
+    }
   },
   "Poblacion Santa Maria Bulacan": {
-    "latitude": "14.8197695",
-    "longitude": "120.9625961"
+    "main_coord": { "latitude": 14.8197695, "longitude": 120.9625961 },
+    "bounding_box": {
+      "min_latitude": 14.8187695,
+      "max_latitude": 14.8207695,
+      "min_longitude": 120.9615961,
+      "max_longitude": 120.9635961
+    }
   },
   "Pulong Buhangin Santa Maria Bulacan": {
-    "latitude": "14.8649744",
-    "longitude": "120.9956390"
+    "main_coord": { "latitude": 14.8649744, "longitude": 120.995639 },
+    "bounding_box": {
+      "min_latitude": 14.8639744,
+      "max_latitude": 14.8659744,
+      "min_longitude": 120.994639,
+      "max_longitude": 120.996639
+    }
   },
   "San Gabriel Santa Maria Bulacan": {
-    "latitude": "14.8055871",
-    "longitude": "120.9588584"
+    "main_coord": { "latitude": 14.8055871, "longitude": 120.9588584 },
+    "bounding_box": {
+      "min_latitude": 14.8045871,
+      "max_latitude": 14.8065871,
+      "min_longitude": 120.9578584,
+      "max_longitude": 120.9598584
+    }
   },
   "San Jose Patag Santa Maria Bulacan": {
-    "latitude": "14.8263371",
-    "longitude": "120.9808069"
+    "main_coord": { "latitude": 14.8263371, "longitude": 120.9808069 },
+    "bounding_box": {
+      "min_latitude": 14.8253371,
+      "max_latitude": 14.8273371,
+      "min_longitude": 120.9798069,
+      "max_longitude": 120.9818069
+    }
   },
   "San Vicente Santa Maria Bulacan": {
-    "latitude": "14.8069734",
-    "longitude": "121.0038564"
+    "main_coord": { "latitude": 14.8069734, "longitude": 121.0038564 },
+    "bounding_box": {
+      "min_latitude": 14.8059734,
+      "max_latitude": 14.8079734,
+      "min_longitude": 121.0028564,
+      "max_longitude": 121.0048564
+    }
   },
   "Santa Clara Santa Maria Bulacan": {
-    "latitude": "14.8226998",
-    "longitude": "120.9505514"
-  },
-  "Santa Cruz Santa Maria Bulacan": {
-    "latitude": "14.8334524",
-    "longitude": "120.9586748"
-  },
-  "Silangan Santa Maria Bulacan": {
-    "latitude": "14.8914153",
-    "longitude": "121.0103521"
-  },
-  "Tabing Ilog Santa Maria Bulacan": {
-    "latitude": "14.8143090",
-    "longitude": "120.9485982"
-  },
-  "Tumana Santa Maria Bulacan": {
-    "latitude": "14.8124717",
-    "longitude": "120.9730783"
+    "main_coord": { "latitude": 14.8226998, "longitude": 120.9505514 },
+    "bounding_box": {
+      "min_latitude": 14.8216998,
+      "max_latitude": 14.8236998,
+      "min_longitude": 120.9495514,
+      "max_longitude": 120.9515514
+    }
   }
 }
-
