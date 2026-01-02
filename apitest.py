@@ -13,7 +13,7 @@ flow_params = {
 
 # --- Traffic Incidents endpoint ---
 INCIDENTS_URL = "https://api.tomtom.com/traffic/services/5/incidentDetails"
-incidents_params = {
+Main_params = {
     "bbox": "120.90,14.65,121.10,14.90",  # Metro Manila/Bulacan bounding box
     "key": API_KEY
 }
@@ -34,6 +34,12 @@ def main():
     print("Current speed (km/h):", flow.get("currentSpeed"))
     print("Free flow speed (km/h):", flow.get("freeFlowSpeed"))
     print("Confidence:", flow.get("confidence"))
+    Road_Close = flow.get("roadClosure")
+    if Road_Close == True :
+        print("RoadClosure: There is ROAD CLOSURE!") 
+    else:
+        print("RoadClosure: There is no ROAD CLOSURE!")
+    
 
     # Call Incidents API
     incidents_data = get_data(INCIDENTS_URL, incidents_params)
