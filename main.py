@@ -9,12 +9,12 @@
 #MADE WITH LOVE <3
 
 # --------------------------------------------------------------------------- #
-# import openrouteservice
-from rich.console import Console
-from rich.table import Table
-from rich import box
-from tabulate import tabulate    
-import itertools, sys, time, threading, os, json , requests
+# import openrouteservice                                       # for routing services (not used currently)                     
+from rich.console import Console                                # table formatting
+from rich.table import Table                                    # table formatting
+from rich import box                                            # table formatting
+from datetime import datetime , date                            # date and time
+import itertools, sys, time, threading, os, json , requests     # other imports
 
 # client = openrouteservice.Client(key="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjdiYzQxMTY2NzVmZDQ2Mzc4Mjc0NzRkMTIxNzEwNmY3IiwiaCI6Im11cm11cjY0In0=")
 
@@ -29,12 +29,13 @@ FLOW_URL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/1
 
 #printing selection
 
-with open("coords.json", "r") as coords: # json Bry
+with open("coords.json", "r") as coords:    # json Brgy
     coords = json.load(coords)
-    
 print("Barangays in Santa Maria:\n")
 
-def barangay_data(): # printing bry
+
+# printing bry
+def barangay_data():             #NEED TO THIS TO TABLE!!
     for count, brgy in enumerate(coords, start = 1):
         print(f"{count} | {brgy}")
 
@@ -56,16 +57,16 @@ def get_data(url, params):
 
 #===========================================
 
+# accessing api function
 def accesing_api(brgy_input):
     global lat, long, flow_data, Incidents_data # global variables
     
     #accesing json's
-    #point coord
+    #point coordinates
     lat = coords[brgy_input]["main_coord"]["latitude"]
     long = coords[brgy_input]["main_coord"]["longitude"]
     
-    
-    #bounding box coord
+    #bounding box coord format
     Bound_box = coords[brgy_input]["bounding_box"]
     min_lat = Bound_box["min_latitude"]
     max_lat = Bound_box["max_latitude"]
@@ -74,46 +75,55 @@ def accesing_api(brgy_input):
     # print(f"Bounding Box: {min_lon},{min_lat},{max_lon},{max_lat}")#for denugging
      
     # params ==========================
+    
+    #for current Flow
     Flow_params = {
-        "point": f"{lat},{long}",  
+        "point": f"{lat},{long}",   # geting the coordinates
         "key": API_KEY
     }
     flow_data = get_data(FLOW_URL, Flow_params)
-    
     #example:
     # print("Current speed (km/h):", flow.get("currentSpeed"))
+    
+    #for Incidents
     Incidents_params = {
-        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  
+        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
         "key": API_KEY
     }
-    Incidents_data = get_data(INCIDENTS_URL, Incidents_params)
-            
+    Incidents_data = get_data(INCIDENTS_URL, Incidents_params)    
     #example:
     # print("Type:", Incidents.get("incidentType"))
     
 #===========================================
 
-# MAIN
+# date and time
+date = date.today()
+time_now = datetime.now()
+date = date.strftime("%d/%m/%Y")
+time_now = time_now.strftime("%I:%M:%S %p")
+
+
+# MAIN ===================================
 while True:
     try:
         clearing()
         barangay_data()
-        user_input = int(input("\nChoose a Barangay: "))
+        user_input = int(input("\nChoose a Barangay: ")) # user input
         barangays = list(coords)[user_input - 1]
-        accesing_api(barangays)
+        accesing_api(barangays)                          # accessing api function
         
-        #getting data from api
+        # data from api
         flow = flow_data.get("flowSegmentData", {})
         incidents = Incidents_data.get("incidents", []) or Incidents_data.get("features", [])
-        
         
         if user_input <= 0: # Error loop
             clearing()
             continue
+        
         else:  # main printing
             # print(f"\n{barangays}, Latitude: {lat}, Longitude: {long}")#debugging
-            clearing()
-            def spinner(stop_event):
+            clearing() 
+            def spinner(stop_event): # loding function
                 for c in itertools.cycle(['|', '/', '-', '\\']):
                     if stop_event.is_set():
                         break
@@ -126,7 +136,7 @@ while True:
             t = threading.Thread(target=spinner, args=(stop_event,))
             t.start()
 
-            # Simulate data loading
+            #  loading
             time.sleep(2)  #seconds
 
             # Stop spinner
@@ -134,15 +144,19 @@ while True:
             t.join()
             sys.stdout.write('\r' + ' ' * 20 + '\r')  # clear spinner line
                         
-        # Spinner function
-            
-        console = Console()
+        # -------------------------------
+        # Traffic Flow Table
+        # -------------------------------
+         
+        console = Console() # accessing the imported console
         
         traffic_table = Table(title=f"{barangays.upper()}\nTRAFFIC FLOW DATA", box=box.ROUNDED)
 
         traffic_table.add_column("Traffic Metric", style="cyan", justify="left")
         traffic_table.add_column("Value", style="green", justify="center")
 
+        traffic_table.add_row("Current Date", f"[green]{date}[/green]")
+        traffic_table.add_row("Current Time", f"[green]{time_now}[/green]")
         traffic_table.add_row("Current Speed (km/h)", f"[green]{flow.get('currentSpeed')}km/h [/green]")
         traffic_table.add_row("Free Flow Speed (km/h)", f"{flow.get('freeFlowSpeed')}km/h")
         traffic_table.add_row("Confidence (%)", f"[blue]{round(flow.get('confidence')*100,2)}%[/blue]")
@@ -178,7 +192,7 @@ while True:
         time.sleep(3)
         break
             
-        # # Debugging prints
+        # /simple prints
         
             # print(f"Traffic Flow Segment Data: in {barangays}")
             # print("Current speed (km/h):", flow.get("currentSpeed"))
