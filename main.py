@@ -15,17 +15,18 @@ from rich.table import Table                                    # table formatti
 from rich import box                                            # table formatting
 from datetime import datetime , date                            # date and time
 import itertools, sys, time, threading, os, json , requests     # other imports
-
+from dotenv import load_dotenv
 # client = openrouteservice.Client(key="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjdiYzQxMTY2NzVmZDQ2Mzc4Mjc0NzRkMTIxNzEwNmY3IiwiaCI6Im11cm11cjY0In0=")
 
 
 #  TomTom API key
-API_KEY = os.getenv("TOMTOM_API_KEY", "CpIfmNNZcNZ81lmm9znSzdaaeVTAKLaI")
+load_dotenv() 
 
-# URL
-INCIDENTS_URL = "https://api.tomtom.com/traffic/services/5/incidentDetails"
-FLOW_URL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json"
+API_KEY = os.getenv("API_KEY")
+FLOW_URL = os.getenv("FLOW_URL")
+INCIDENTS_URL = os.getenv("INCIDENTS_URL")
 
+# 
 
 #printing selection
 
