@@ -174,18 +174,26 @@ while True:
         incident_table.add_column("Value", style="yellow", justify="center")
 
         if incidents:
+            accident_found = False
             for inc in incidents:
                 props = inc.get("properties", {})
-                incident_table.add_row("Type", f"[red]{props.get('incidentType')}[/red]")
-                incident_table.add_row("Description", props.get("description"))
-                incident_table.add_row("Severity", f"[yellow]{props.get('magnitudeOfDelay')}[/yellow]")
-                incident_table.add_row("Start Time", f"[light_sea_green]{props.get('startTime')}[/light_sea_green]")
-                incident_table.add_row("End Time", f"[light_sea_green]{props.get('endTime')}[/light_sea_green]")
-                incident_table.add_row("Length (meters)", f"[dodger_blue3]{props.get('length')}[/dodger_blue3]")
-                incident_table.add_row("Road Closed", "[red]HAVE ROAD CLOSURE![/red]" if props.get("roadClosed") else "[green]No Road Closure[/green]")
-                incident_table.add_row("From", props.get("from"))
-                incident_table.add_row("To", props.get("to"))
+                if props.get("incidentType") == "ACCIDENT":
+                    accident_found = True
+                    incident_table.add_row("Type", f"[red]{props.get('incidentType')}[/red]")
+                    incident_table.add_row("Description", props.get("description") or "N/A")
+                    incident_table.add_row("Severity", f"[yellow]{props.get('magnitudeOfDelay')}[/yellow]")
+                    incident_table.add_row("Start Time", f"[light_sea_green]{props.get('startTime')}[/light_sea_green]")
+                    incident_table.add_row("End Time", f"[light_sea_green]{props.get('endTime')}[/light_sea_green]")
+                    incident_table.add_row("Length (meters)", f"[dodger_blue3]{props.get('length')}[/dodger_blue3]")
+                    incident_table.add_row("Road Closed", "[red]HAVE ROAD CLOSURE![/red]" if props.get("roadClosed") else "[green]No Road Closure[/green]")
+                    incident_table.add_row("From", props.get("from") or "N/A")
+                    incident_table.add_row("To", props.get("to") or "N/A")
+
+            # If no accidents were found, print a clear message
+            if not accident_found:
+                incident_table.add_row("Accidents", "[green]No accidents found in this area[/green]")
         else:
+            # No incidents at all
             incident_table.add_row("Incidents", "[green]No incidents found in this area[/green]")
 
         console.print(incident_table)
