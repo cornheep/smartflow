@@ -66,7 +66,7 @@ python3 SmartFlow.py
 ## 🖼️ Sample Outputs
 - Sample 1 (Traffic flow, no incident)
 <p align="center">
-  <img src="sampleoutput_pics/traffic_flow_no_incident.jpeg" alt="Sample 1" width="400" style="border-radius: 15px;/> 
+  <img src="sampleoutput_pics/traffic_flow_no_incident.jpeg" alt="Sample 1" width="400";/> 
 </p>
 
 - Sample 2 & 3 (With incident)
