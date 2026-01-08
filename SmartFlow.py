@@ -9,15 +9,12 @@
 #MADE WITH LOVE <3 mas mahal ko sarili ko 
 
 # --------------------------------------------------------------------------- #
-# import openrouteservice                                       # for routing services (not used currently)                     
 from rich.console import Console                                # table formatting
 from rich.table import Table                                    # table formatting
 from rich import box                                            # table formatting
 from datetime import datetime , date                            # date and time
 import itertools, sys, time, threading, os, json , requests     # other imports
 from dotenv import load_dotenv
-# client = openrouteservice.Client(key="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjdiYzQxMTY2NzVmZDQ2Mzc4Mjc0NzRkMTIxNzEwNmY3IiwiaCI6Im11cm11cjY0In0=")
-
 
 #keys
 load_dotenv() 
