@@ -1,4 +1,7 @@
 # SmartFlow
+<p align="center">
+  <img src="sampleoutput_pics/title.gif" alt="Sample 1" width="700";/> 
+</p>
 
 A barangay-level traffic monitoring system built as a hands-on project for learning **Python** and **API integration**.  
 This project uses the **TomTom Traffic API** to fetch **real-time traffic flow** and **incident data** for barangays in Santa Maria, Bulacan.  
@@ -77,7 +80,6 @@ python3 SmartFlow.py
 
 ---
 ## 👥 Authors
-
 - Genon, Jomari (Main Developer)
 - Mamayson, Gabriel Luiz (Co-Developer)
 - David, John Carlos (Idea Author)
