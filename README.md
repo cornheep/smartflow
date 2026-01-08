@@ -42,8 +42,8 @@ setx TOMTOM_API_KEY "your_api_key_here"
 ---
 ### Running the Program
 ```bash / CMD & Powershell
-python main.py 
-python3 main.py
+python SmartFlow.py
+python3 SmartFlow.py
 ```
 ---
 ## 🚦 Features
@@ -62,6 +62,18 @@ python3 main.py
 - Show results in formatted tables using `rich`
 
 - Error handling for invalid inputs and API issues
+
+## 🖼️ Sample Outputs
+- Sample 1 (Traffic flow, no incident)
+<p align="center">
+  <img src="sampleoutput_pics/traffic_flow_no_incident.jpeg" alt="Sample 1" width="400"/> 
+</p>
+
+- Sample 2 & 3 (With incident)
+<p align="center">
+  <img src="sampleoutput_pics/with_incident_1.jpeg" alt="Sample 2" width="400"/>
+  <img src="sampleoutput_pics/with_incident_2.jpeg" alt="Sample 3" width="400"/>
+</p>
 
 ---
 ## 👥 Authors
