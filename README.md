@@ -40,7 +40,7 @@ Windows (Powershell)
 setx TOMTOM_API_KEY "your_api_key_here"
 ```
 ---
-### Running the Program
+### To run the program:
 ```bash / CMD & Powershell
 python SmartFlow.py
 python3 SmartFlow.py
@@ -62,7 +62,7 @@ python3 SmartFlow.py
 - Show results in formatted tables using `rich`
 
 - Error handling for invalid inputs and API issues
-
+---
 ## 🖼️ Sample Outputs
 - Sample 1 (Traffic flow, no incident)
 <p align="center">
