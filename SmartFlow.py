@@ -19,33 +19,28 @@ from dotenv import load_dotenv
 # client = openrouteservice.Client(key="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjdiYzQxMTY2NzVmZDQ2Mzc4Mjc0NzRkMTIxNzEwNmY3IiwiaCI6Im11cm11cjY0In0=")
 
 
-#  TomTom API key
+#keys
 load_dotenv() 
-
 API_KEY = os.getenv("API_KEY")
 FLOW_URL = os.getenv("FLOW_URL")
 INCIDENTS_URL = os.getenv("INCIDENTS_URL")
 
-# 
-
 #printing selection
-
 with open("coords.json", "r") as coords:    # json Brgy
     coords = json.load(coords)
 print("Barangays in Santa Maria:\n")
 
-
 # printing bry
-def barangay_data():             #NEED TO THIS TO TABLE!!
+def barangay_data():
     for count, brgy in enumerate(coords, start = 1):
         print(f"{count} | {brgy}")
 
-def clearing(): #  clearing 
+#  clearing 
+def clearing(): 
   if os.name == 'nt':
     os.system('cls')
   else:
     os.system('clear')
-    
     
 # api gettign datas
 def get_data(url, params):
@@ -56,151 +51,145 @@ def get_data(url, params):
         print("Error:", resp.status_code, resp.text)
         return {}
 
-
-FIELDS = (
-    "{incidents{"
-    "type,"
-    "properties{"
-    "id,iconCategory,magnitudeOfDelay,startTime,endTime,"
-    "from,to,length,delay,roadNumbers,timeValidity,"
-    "probabilityOfOccurrence,events{code,description,iconCategory}"
-    "},"
-    "geometry{type,coordinates}"
-    "}}"
-)
-
-
-
-
-
-
-#===========================================
-
 # accessing api function
 def accesing_api(brgy_input):
-    global lat, long, flow_data, Incidents_data # global variables
+    global lat, long, flow_data, Incidents_data , FIELDS # global variables
     
-    #accesing json's
-    #point coordinates
+    FIELDS = (
+        "{incidents{"
+        "type,"
+        "properties{"
+        "id,iconCategory,magnitudeOfDelay,startTime,endTime,"
+        "from,to,length,delay,roadNumbers,timeValidity,"
+        "probabilityOfOccurrence,events{code,description,iconCategory}"
+        "},"
+        "geometry{type,coordinates}"
+        "}}"
+    )
+    
+#COORDINATES
+#point coordinates
     lat = coords[brgy_input]["main_coord"]["latitude"]
     long = coords[brgy_input]["main_coord"]["longitude"]
     
-    #bounding box coord format
+#bounding box coord format
     Bound_box = coords[brgy_input]["bounding_box"]
     min_lat = Bound_box["min_latitude"]
     max_lat = Bound_box["max_latitude"]
     min_lon = Bound_box["min_longitude"]
-    max_lon = Bound_box["max_longitude"]
-    # print(f"Bounding Box: {min_lon},{min_lat},{max_lon},{max_lat}")#for denugging
-     
-    # params ==========================
-    
-    #for current Flow
+    max_lon = Bound_box["max_longitude"]  
+       
+# params ==========================
+
+#for current Flow
     Flow_params = {
         "point": f"{lat},{long}",   # geting the coordinates
         "key": API_KEY
     }
     flow_data = get_data(FLOW_URL, Flow_params)
-    #example:
-    # print("Current speed (km/h):", flow.get("currentSpeed"))
     
-    #for Incidents
+#for Incidents
     Incidents_params = {
         "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
+        # "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
         "key": API_KEY,
         "fields": FIELDS,
         "language": "en-GB",
         "timeValidityFilter": "present"
     }
-
     Incidents_data = get_data(INCIDENTS_URL, Incidents_params)    
-    #example:
-    # print("Type:", Incidents.get("incidentType"))
+ 
+# API'S CALL TYPES 
+#INCIDENT TYPES 
+def api_types(props):       
+    global delay_severity, incident_severity, icon_cat, severity_map,  incident_type, magnitude_map, description, severity_display, length_fmt, delay_fmt, start_fmt, end_fmt
     
-#===========================================
+    icon_cat = props.get("iconCategory", 0)
+    
+    incident_types = {
+                        0: "Unknown", 1: "Accident", 2: "Fog", 3: "Dangerous Conditions",
+                        4: "Rain", 5: "Ice", 6: "Traffic Jam", 7: "Lane Closed",
+                        8: "Road Closed", 9: "Road Works", 10: "Wind", 11: "Flooding",
+                        13: "Cluster", 14: "Broken Down Vehicle"
+                    }   
+    incident_type = incident_types.get(icon_cat, f"Unknown Category {icon_cat}")
 
+#MAGNITUDE TYPES
+    magnitude = props.get("magnitude", props.get("magnitudeOfDelay", None))
+    magnitude_map = {
+        0: "Unknown", 1: "Minor", 2: "Moderate", 3: "Major", 4: "Indefinite"
+    }
+    
+    severity_map = {
+        0: "Unknown", 1: "High", 2: "Medium", 3: "High",
+        4: "Low", 5: "Medium", 6: "Medium", 7: "Medium",
+        8: "Critical", 9: "Low to Medium", 10: "Low", 
+        11: "High", 14: "Medium"
+    }
+    if magnitude is not None:
+        delay_severity = magnitude_map.get(magnitude, "Unknown")
+    else:
+        delay_severity = "Unknown"
+
+    incident_severity = severity_map.get(icon_cat, "Unknown")
+
+#DESCRIPTION TYPES
+    description = props.get("description", None)
+    if not description:
+        # fallback descriptions if API doesn't provide one
+        fallback_descriptions = {
+            0: "Traffic condition detected in area",
+            1: "Vehicle collision causing delays",
+            2: "Low visibility conditions",
+            3: "Hazardous road conditions present",
+            4: "Wet road conditions",
+            5: "Icy/slippery road surface",
+            6: "Heavy traffic congestion",
+            7: "Reduced lane capacity",
+            8: "Road completely blocked",
+            9: "Construction/maintenance work in progress",
+            10: "Strong wind conditions",
+            11: "Flooded area - avoid if possible",
+            14: "Disabled vehicle blocking traffic"
+        }    
+        description = fallback_descriptions.get(props.get("iconCategory"), "No description available")
+    
+#API TIME FORMATTING
+    def format_time(ts): # Format time function
+
+        if ts:
+            try:
+                dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                return dt.strftime("%m/%d/%y %I:%M %p") #DATE FORMAT
+            except Exception:
+                return ts
+        return "N/A"
+
+    # Format length 
+    length_m = props.get("length")
+    length_fmt = f"{length_m:.2f} m" if length_m is not None else "N/A"
+
+    # Format Seconds
+    delay_s = props.get("delay")
+    if delay_s is not None:
+        minutes = delay_s // 60
+        seconds = delay_s % 60
+        delay_fmt = f"{minutes:02d}:{seconds:02d} Minutes"
+    else:
+        delay_fmt = "N/A"
+
+    # Format start and end times
+    start_fmt = format_time(props.get("startTime"))
+    end_fmt = format_time(props.get("endTime"))
+   
+# end of FUNCTIONS=================================
+      
 # date and time
 date = date.today()
 time_now = datetime.now()
 date = date.strftime("%d/%m/%Y")
 time_now = time_now.strftime("%I:%M:%S %p")
-
-
-
-def formater():
-    #==================================================
-
-# API'S CALL TYPES 
-        #INCIDENT TYPES 
-        incident_types = {
-                    0: "Unknown", 1: "Accident", 2: "Fog", 3: "Dangerous Conditions",
-                    4: "Rain", 5: "Ice", 6: "Traffic Jam", 7: "Lane Closed",
-                    8: "Road Closed", 9: "Road Works", 10: "Wind", 11: "Flooding",
-                    13: "Cluster", 14: "Broken Down Vehicle"
-                }   
-      #MAGNITUDE TYPES
-        magnitude = props.get("magnitude", props.get("magnitudeOfDelay", None))
-        magnitude_map = {
-                    0: "Unknown", 1: "Minor", 2: "Moderate", 3: "Major", 4: "Indefinite"
-                }  
-       #DESCRIPTION TYPES
-        description = props.get("description", None)
-        if not description:
-                    # fallback descriptions if API doesn't provide one
-                    fallback_descriptions = {
-                        0: "Traffic condition detected in area",
-                        1: "Vehicle collision causing delays",
-                        2: "Low visibility conditions",
-                        3: "Hazardous road conditions present",
-                        4: "Wet road conditions",
-                        5: "Icy/slippery road surface",
-                        6: "Heavy traffic congestion",
-                        7: "Reduced lane capacity",
-                        8: "Road completely blocked",
-                        9: "Construction/maintenance work in progress",
-                        10: "Strong wind conditions",
-                        11: "Flooded area - avoid if possible",
-                        14: "Disabled vehicle blocking traffic"
-                    }    
-#==================================================
-
-            
-    # ==========================
-    # FORMATTED PRINT
-    # ==========================
-        def format_time(ts):
-            if ts:
-                try:
-                    dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                    return dt.strftime("%m/%d/%y %I:%M %p") #DATE FORMAT
-                except Exception:
-                    return ts
-            return "N/A"
-
-    # for i, incident in enumerate(incidents, start=1):
-    #     props = incident["properties"]
-
-        # Format length 
-        length_m = props.get("length")
-        length_fmt = f"{length_m:.2f} m" if length_m is not None else "N/A"
-
-        # Format Seconds
-        delay_s = props.get("delay")
-        if delay_s is not None:
-            minutes = delay_s // 60
-            seconds = delay_s % 60
-            delay_fmt = f"{minutes:02d}:{seconds:02d} (mm:ss)"
-        else:
-            delay_fmt = "N/A"
-
-        # Format start and end times
-        start_fmt = format_time(props.get("startTime"))
-        end_fmt = format_time(props.get("endTime"))
-
-
-
-
-
+ 
 
 # MAIN ===================================
 while True:
@@ -243,9 +232,10 @@ while True:
             t.join()
             sys.stdout.write('\r' + ' ' * 20 + '\r')  # clear spinner line
                
-    # ============================================================
-    # ============================================================
+# ============================================================
+
 #   PRINTING TABLES
+
         # -------------------------------
         # Traffic Flow Table
         # -------------------------------
@@ -266,74 +256,60 @@ while True:
 
         console.print(traffic_table)
 
-        # -------------------------------
-        # Incident Table
-        # -------------------------------
-        incident_table = Table(title="TRAFFIC INCIDENTS IN AREA", box=box.ROUNDED)
+# -------------------------------
+# Incident Table
+# -------------------------------
+
+        incident_table = Table(title=f"TRAFFIC INCIDENTS IN AREA\n TOTAL INCIDENTS FOUND: {len(incidents)}", box=box.ROUNDED)
 
         incident_table.add_column("Incident Field", style="cyan", justify="left")
         incident_table.add_column("Value", style="yellow", justify="center")
-
-    #need to change
-
+        
         if incidents:
-            for inc in incidents:
-                props = inc.get("properties", {})
+            for i, inc in enumerate(incidents, start=1):
                 accident_found = True
-                incident_table.add_row("Type", f"[red]{props.get('incidentType')}[/red]")
-                incident_table.add_row("Description", props.get("description") or "N/A")
-                incident_table.add_row("Severity", f"[yellow]{props.get('magnitudeOfDelay')}[/yellow]")
-                incident_table.add_row("Start Time", f"[light_sea_green]{props.get('startTime')}[/light_sea_green]")
-                incident_table.add_row("End Time", f"[light_sea_green]{props.get('endTime')}[/light_sea_green]")
-                incident_table.add_row("Length (meters)", f"[dodger_blue3]{props.get('length')}[/dodger_blue3]")
+                props = inc.get("properties", {})
+                api_types(props)
+                incident_table.add_row("Incident NO#", f"[red]{i}[/red]")
+                incident_table.add_row("","" )  # Empty row for separation
+                
+                incident_table.add_row("Type", f"[red]{incident_type}[/red]")
+                incident_table.add_row("Description", f"[yellow]{description}[/yellow]")
+                for event in props.get("events", []):
+                    incident_table.add_row("events", f" - {event.get('description')}")
+                
+                incident_table.add_row("Delay Severity (Magnitude)", f"[yellow]{delay_severity}[/yellow]")
+                incident_table.add_row("Severity Level (Incident Type)", f"[yellow]{incident_severity}[/yellow]")
+
+                incident_table.add_row("Delayed Time", f"[dodger_blue3]{delay_fmt}[/dodger_blue3]")
+                
+                incident_table.add_row("Status", f"[yellow]{props.get('timeValidity')}[/yellow]")
+               
+                incident_table.add_row("Start Time", f"[light_sea_green]{start_fmt}[/light_sea_green]")
+                incident_table.add_row("End Time", f"[light_sea_green]{end_fmt}[/light_sea_green]")
+               
+                incident_table.add_row("Length (meters)", f"[dodger_blue3]{length_fmt}[/dodger_blue3]")
                 incident_table.add_row("Road Closed", "[red]HAVE ROAD CLOSURE![/red]" if props.get("roadClosed") else "[green]No Road Closure[/green]")
+               
                 incident_table.add_row("From", props.get("from") or "N/A")
                 incident_table.add_row("To", props.get("to") or "N/A")
-                incident_table.add_row("To", props.get("to") or "N/A")
+                
+                incident_table.add_row("Probability of Occurrence", f"[yellow]{props.get('probabilityOfOccurrence')}[/yellow]")
+
+                incident_table.add_row("","" )  # Empty row for separation                
+                incident_table.add_row(f"[white]-----------[/white]",f"[white]-----------[/white]")  # Empty row for separation
+                incident_table.add_row("","" )  # Empty row for separation
+
         else:
             # No incidents at all
             incident_table.add_row("Incidents", "[green]No incidents found in this area[/green]")
-
+        print("\n")
+        
         console.print(incident_table)
 
         time.sleep(3)
         break
             
-        # /simple prints
-        
-            # print(f"Traffic Flow Segment Data: in {barangays}")
-            # print("Current speed (km/h):", flow.get("currentSpeed"))
-            # print("Free flow speed (km/h):", flow.get("freeFlowSpeed"))
-            # print("Confidence:", flow.get("confidence"))
-            # Road_Close = flow.get("roadClosure")
-            # if Road_Close == True :
-            #     print("RoadClosure: There is ROAD CLOSURE!") 
-            # else:
-            #     print("RoadClosure: There is no ROAD CLOSURE!")
-
-            # if incidents:
-            #     print("Traffic Incidents in Area:")
-            #     for inc in incidents:
-            #         props = inc.get("properties", {})
-            #         print("--------------------------------------------------")
-            #         print("Type:", props.get("incidentType"))
-            #         print("Description:", props.get("description"))
-            #         print("Severity:", props.get("magnitudeOfDelay"))
-            #         print("Start Time:", props.get("startTime"))
-            #         print("End Time:", props.get("endTime"))
-            #         print("Length (meters):", props.get("length"))
-            #         print("Road Closed:", props.get("roadClosed"))
-                    
-            #         inc_Road_Close = props.get("roadClosure")
-            #         if inc_Road_Close == True :
-            #             print("RoadClosure: There is ROAD CLOSURE!") 
-            #         else:
-            #             print("RoadClosure: There is no ROAD CLOSURE!")
-
-            # else:
-            #     print("No incidents found in this area.")
-                    
-        
     except(ValueError, IndexError): # ERRORS
         clearing()
         continue
