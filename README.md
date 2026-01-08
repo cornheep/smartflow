@@ -65,9 +65,9 @@ python3 main.py
 ---
 ## 👥 Authors
 
-- Genon, Jomari (Main Programmer)
-- Mamayson, Gabriel Luiz (Supporting Programmer)
-- David, John Carlos (Support)
+- Genon, Jomari (Main Developer)
+- Mamayson, Gabriel Luiz (Co-Developer)
+- David, John Carlos (Idea Author)
 - Group `SyntaxError;`, BSCPE 1-1
 - Made with ❤️ on December 27, 2025 - January 6, 2026
 
