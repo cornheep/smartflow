@@ -1,4 +1,4 @@
-# CommunityTrafficMonitor
+# SmartFlow
 
 A barangay-level traffic monitoring system built as a hands-on project for learning **Python** and **API integration**.  
 This project uses the **TomTom Traffic API** to fetch **real-time traffic flow** and **incident data** for barangays in Santa Maria, Bulacan.  
@@ -19,12 +19,12 @@ The **CLI (Command-Line Interface)** application is made for the finals requirem
   - `itertools`
   - `time`
 
-Install dependencies:
+#### Install dependencies:
 ```bash
 pip install requests rich tabulate
 ```
 
-Environment Setup:
+#### Environment Setup:
 
 This project uses **TomTom API Key**
 Set it as an environment variable:
@@ -69,7 +69,7 @@ python3 main.py
 - Mamayson, Gabriel Luiz (Co-Developer)
 - David, John Carlos (Idea Author)
 - Group `SyntaxError;`, BSCPE 1-1
-- Made with ❤️ on December 27, 2025 - January 6, 2026
+- Made with ❤️ lovelots po salamat~
 
 ---
 
