@@ -1,29 +1,45 @@
+#MADE BY: GENON,JOMARI AND MAMAYSON GABRIEL LUIZ
+#MADE ON  DECEMBER 27, 2025
+
+# Community Traffic Monitoring System
+#PROJECT PROPOSAL 
+#GROUP SYTANX ERROR FROM BSCPE 1-1
+
+#2025-2026
+#MADE WITH LOVE <3 mas mahal ko sarili ko 
+
+# --------------------------------------------------------------------------- #
 from rich.console import Console
 from rich.table import Table
-from rich import box
-from datetime import datetime , date
-import itertools, sys, time, threading, os, json , requests
+from rich import box                                            
+from datetime import datetime , date                            
+import itertools, sys, time, threading, os, json , requests     
 from dotenv import load_dotenv
 
+#keys
 load_dotenv() 
 API_KEY = os.getenv("API_KEY")
 FLOW_URL = os.getenv("FLOW_URL")
 INCIDENTS_URL = os.getenv("INCIDENTS_URL")
 
-with open("coords.json", "r") as coords:
+#printing selection
+with open("coords.json", "r") as coords:    
     coords = json.load(coords)
 print("Barangays in Santa Maria:\n")
 
+# printing bry
 def barangay_data():
     for count, brgy in enumerate(coords, start = 1):
         print(f"{count} | {brgy}")
 
+#  clearing 
 def clearing(): 
   if os.name == 'nt':
     os.system('cls')
   else:
     os.system('clear')
     
+# api gettign datas
 def get_data(url, params):
     resp = requests.get(url, params=params)
     if resp.status_code == 200:
@@ -32,6 +48,7 @@ def get_data(url, params):
         print("Error:", resp.status_code, resp.text)
         return {}
 
+# accessing api function
 def accesing_api(brgy_input):
     global lat, long, flow_data, Incidents_data , FIELDS 
     
@@ -47,30 +64,40 @@ def accesing_api(brgy_input):
         "}}"
     )
     
+#COORDINATES
+#point coordinates
     lat = coords[brgy_input]["main_coord"]["latitude"]
     long = coords[brgy_input]["main_coord"]["longitude"]
-
+    
+#bounding box coord 
     Bound_box = coords[brgy_input]["bounding_box"]
     min_lat = Bound_box["min_latitude"]
     max_lat = Bound_box["max_latitude"]
     min_lon = Bound_box["min_longitude"]
     max_lon = Bound_box["max_longitude"]  
+       
+# params ==========================
 
+#for current Flow
     Flow_params = {
-        "point": f"{lat},{long}",  
+        "point": f"{lat},{long}",
         "key": API_KEY
     }
     flow_data = get_data(FLOW_URL, Flow_params)
-
+    
+#for Incidents
     Incidents_params = {
-        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  
+        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",
+        # "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
         "key": API_KEY,
         "fields": FIELDS,
         "language": "en-GB",
         "timeValidityFilter": "present"
     }
     Incidents_data = get_data(INCIDENTS_URL, Incidents_params)    
-
+ 
+# API'S CALL TYPES 
+#INCIDENT TYPES 
 def api_types(props):       
     global delay_severity, incident_severity, icon_cat, severity_map,  incident_type, magnitude_map, description, severity_display, length_fmt, delay_fmt, start_fmt, end_fmt
     
@@ -84,6 +111,7 @@ def api_types(props):
                     }   
     incident_type = incident_types.get(icon_cat, f"Unknown Category {icon_cat}")
 
+#MAGNITUDE TYPES
     magnitude = props.get("magnitude", props.get("magnitudeOfDelay", None))
     magnitude_map = {
         0: "Unknown", 1: "Minor", 2: "Moderate", 3: "Major", 4: "Indefinite"
@@ -102,9 +130,9 @@ def api_types(props):
 
     incident_severity = severity_map.get(icon_cat, "Unknown")
 
+#DESCRIPTION TYPES
     description = props.get("description", None)
     if not description:
-        
         fallback_descriptions = {
             0: "Traffic condition detected in area",
             1: "Vehicle collision causing delays",
@@ -121,20 +149,23 @@ def api_types(props):
             14: "Disabled vehicle blocking traffic"
         }    
         description = fallback_descriptions.get(props.get("iconCategory"), "No description available")
-
+    
+#API TIME FORMATTING
     def format_time(ts): 
 
         if ts:
             try:
                 dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                return dt.strftime("%m/%d/%y %I:%M %p") 
+                return dt.strftime("%m/%d/%y %I:%M %p") #DATE FORMAT
             except Exception:
                 return ts
         return "N/A"
-    
+
+    # Format length 
     length_m = props.get("length")
     length_fmt = f"{length_m:.2f} m" if length_m is not None else "N/A"
-    
+
+    # Format Seconds
     delay_s = props.get("delay")
     if delay_s is not None:
         minutes = delay_s // 60
@@ -143,34 +174,39 @@ def api_types(props):
     else:
         delay_fmt = "N/A"
 
-    
+    # Format start and end times
     start_fmt = format_time(props.get("startTime"))
     end_fmt = format_time(props.get("endTime"))
+   
+# end of FUNCTIONS=================================
       
+# date and time
 date = date.today()
 time_now = datetime.now()
 date = date.strftime("%d/%m/%Y")
 time_now = time_now.strftime("%I:%M:%S %p")
  
+
+# MAIN ===================================
 while True:
     try:
         clearing()
         barangay_data()
-        user_input = int(input("\nChoose a Barangay: ")) 
+        user_input = int(input("\nChoose a Barangay: ")) # user input
         barangays = list(coords)[user_input - 1]
-        accesing_api(barangays)                          
+        accesing_api(barangays)                          # accessing api function
         
+        # data from api
         flow = flow_data.get("flowSegmentData", {})
         incidents = Incidents_data.get("incidents", []) or Incidents_data.get("features", [])
         
-        if user_input <= 0: 
+        if user_input <= 0: # Error loop
             clearing()
             continue
         
-        else:  
-            
+        else:  # main printing begins here
             clearing() 
-            def spinner(stop_event): 
+            def spinner(stop_event): # loding function
                 for c in itertools.cycle(['|', '/', '-', '\\']):
                     if stop_event.is_set():
                         break
@@ -178,16 +214,27 @@ while True:
                     sys.stdout.flush()
                     time.sleep(0.1)
 
+            # Start spinner
             stop_event = threading.Event()
             t = threading.Thread(target=spinner, args=(stop_event,))
             t.start()
 
-            time.sleep(2)  
+            #  loading
+            time.sleep(2)  #seconds
 
+            # Stop spinner
             stop_event.set()
             t.join()
-            sys.stdout.write('\r' + ' ' * 20 + '\r')  
+            sys.stdout.write('\r' + ' ' * 20 + '\r')
                
+# ============================================================
+
+#   PRINTING TABLES
+
+        # -------------------------------
+        # Traffic Flow Table
+        # -------------------------------
+         
         console = Console() 
         
         traffic_table = Table(title=f"{barangays.upper()}\nTRAFFIC FLOW DATA", box=box.ROUNDED)
@@ -202,6 +249,10 @@ while True:
         traffic_table.add_row("Road Closure", "[red]HAVE ROAD CLOSURE![/red]" if flow.get("roadClosure") else "[green]No Road Closure[/green]")
 
         console.print(traffic_table)
+
+# -------------------------------
+# Incident Table
+# -------------------------------
 
         incident_table = Table(title=f"TRAFFIC INCIDENTS IN AREA\n TOTAL INCIDENTS FOUND: {len(incidents)}", box=box.ROUNDED)
         incident_table.add_column("Incident Field", style="cyan", justify="left")
@@ -238,12 +289,12 @@ while True:
                 
                 incident_table.add_row("Probability of Occurrence", f"[yellow]{props.get('probabilityOfOccurrence')}[/yellow]")
 
-                incident_table.add_row("","" )  
-                incident_table.add_row(f"[white]-----------[/white]",f"[white]-----------[/white]")  
+                incident_table.add_row("","" )             
+                incident_table.add_row(f"[white]-----------[/white]",f"[white]-----------[/white]") 
                 incident_table.add_row("","" )  
 
         else:
-            
+            # No incidents at all
             incident_table.add_row("Incidents", "[green]No incidents found in this area[/green]")
         print("\n")
         
@@ -252,6 +303,9 @@ while True:
         time.sleep(3)
         break
             
-    except(ValueError, IndexError): 
+    except(ValueError, IndexError):
         clearing()
         continue
+  
+       
+
