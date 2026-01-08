@@ -9,6 +9,7 @@ The **CLI (Command-Line Interface)** application is made for the finals requirem
 ## 📦 Getting Started
 
 ### Requirements
+- Python 3.x 
 - Required libraries:
   - `requests`
   - `json`
