@@ -273,8 +273,8 @@ while True:
                 for event in props.get("events", []):
                     incident_table.add_row("events", f"{event.get('description')}")
                 
-                incident_table.add_row("Delay Severity (Magnitude)", f"[yellow]{delay_severity}[/yellow]")
-                incident_table.add_row("Severity Level (Incident Type)", f"[yellow]{incident_severity}[/yellow]")
+                incident_table.add_row("Delay Severity", f"[yellow]{delay_severity}[/yellow]")
+                incident_table.add_row("Severity Level", f"[yellow]{incident_severity}[/yellow]")
 
                 incident_table.add_row("Delayed Time", f"[dodger_blue3]{delay_fmt}[/dodger_blue3]")
                 
