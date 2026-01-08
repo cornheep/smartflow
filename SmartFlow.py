@@ -90,8 +90,8 @@ def accesing_api(brgy_input):
     
 #for Incidents
     Incidents_params = {
-        # "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
-        "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
+        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
+        # "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
         "key": API_KEY,
         "fields": FIELDS,
         "language": "en-GB",
@@ -246,7 +246,6 @@ while True:
 
         traffic_table.add_column("Traffic Metric", style="cyan", justify="left")
         traffic_table.add_column("Value", style="green", justify="center")
-
         traffic_table.add_row("Current Date", f"[green]{date}[/green]")
         traffic_table.add_row("Current Time", f"[green]{time_now}[/green]")
         traffic_table.add_row("Current Speed (km/h)", f"[green]{flow.get('currentSpeed')}km/h [/green]")
@@ -261,7 +260,6 @@ while True:
 # -------------------------------
 
         incident_table = Table(title=f"TRAFFIC INCIDENTS IN AREA\n TOTAL INCIDENTS FOUND: {len(incidents)}", box=box.ROUNDED)
-
         incident_table.add_column("Incident Field", style="cyan", justify="left")
         incident_table.add_column("Value", style="yellow", justify="center")
         
