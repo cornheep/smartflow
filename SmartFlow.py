@@ -178,7 +178,28 @@ def api_types(props):
     # Format start and end times
     start_fmt = format_time(props.get("startTime"))
     end_fmt = format_time(props.get("endTime"))
-   
+def loading_animation():  # loading animation    
+            def spinner(stop_event): # loding function
+                for c in itertools.cycle(['|', '/', '-', '\\']):
+                    if stop_event.is_set():
+                        break
+                    sys.stdout.write('\r' + c)
+                    sys.stdout.flush()
+                    time.sleep(0.1)
+
+            # Start spinner
+            stop_event = threading.Event()
+            t = threading.Thread(target=spinner, args=(stop_event,))
+            t.start()
+
+            #  loading
+            time.sleep(2)  #seconds
+
+            # Stop spinner
+            stop_event.set()
+            t.join()
+            sys.stdout.write('\r' + ' ' * 20 + '\r')
+               
 # end of FUNCTIONS=================================
       
 # date and time
@@ -208,27 +229,8 @@ while True:
         else:  # main printing
             # print(f"\n{barangays}, Latitude: {lat}, Longitude: {long}")#debugging
             clearing() 
-            def spinner(stop_event): # loding function
-                for c in itertools.cycle(['|', '/', '-', '\\']):
-                    if stop_event.is_set():
-                        break
-                    sys.stdout.write('\r' + c)
-                    sys.stdout.flush()
-                    time.sleep(0.1)
-
-            # Start spinner
-            stop_event = threading.Event()
-            t = threading.Thread(target=spinner, args=(stop_event,))
-            t.start()
-
-            #  loading
-            time.sleep(2)  #seconds
-
-            # Stop spinner
-            stop_event.set()
-            t.join()
-            sys.stdout.write('\r' + ' ' * 20 + '\r')  # clear spinner line
-               
+            loading_animation()
+           
 # ============================================================
 
 #   PRINTING TABLES
@@ -301,9 +303,20 @@ while True:
         print("\n")
         
         console.print(incident_table)
-
-        time.sleep(3)
-        break
+        while True:
+                user_choice = input("Would you like to monitor another barangay? (yes/no): ").strip().lower()
+                if user_choice in ["yes", "y"]:
+                    clearing()
+                    loading_animation()
+                    break
+                elif user_choice in ["no", "n"]:
+                    clearing()
+                    loading_animation()
+                    print("Exiting the program. Stay safe!")
+                    sys.exit(0)
+                else:
+                    continue 
+       
             
     except(ValueError, IndexError): # ERRORS
         clearing()
