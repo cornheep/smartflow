@@ -90,8 +90,8 @@ def accesing_api(brgy_input):
     
 #for Incidents
     Incidents_params = {
-        "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
-        # "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
+        # "bbox": f"{min_lon},{min_lat},{max_lon},{max_lat}",  # bounding box coordinates
+        "bbox": "120.89,14.49,121.21,14.81",  #FOR fix coordinates testing
         "key": API_KEY,
         "fields": FIELDS,
         "language": "en-GB",
@@ -270,13 +270,13 @@ while True:
                 accident_found = True
                 props = inc.get("properties", {})
                 api_types(props)
-                incident_table.add_row("Incident NO#", f"[red]{i}[/red]")
+                incident_table.add_row("Incident No#", f"[red]{i}[/red]")
                 incident_table.add_row("","" )  # Empty row for separation
                 
                 incident_table.add_row("Type", f"[red]{incident_type}[/red]")
                 incident_table.add_row("Description", f"[yellow]{description}[/yellow]")
                 for event in props.get("events", []):
-                    incident_table.add_row("events", f" - {event.get('description')}")
+                    incident_table.add_row("events", f"{event.get('description')}")
                 
                 incident_table.add_row("Delay Severity (Magnitude)", f"[yellow]{delay_severity}[/yellow]")
                 incident_table.add_row("Severity Level (Incident Type)", f"[yellow]{incident_severity}[/yellow]")
