@@ -266,8 +266,8 @@ while True:
                 incident_table.add_row("Severity Level", f"[yellow]{severity_display}[/yellow]")
                 incident_table.add_row("Affected Length", f"[dodger_blue3]{length_display}[/dodger_blue3]")
                 incident_table.add_row("Road Status", "[red]ROAD CLOSED![/red]" if road_closed else "[green]Road Open - Caution Advised[/green]")
-                # incident_table.add_row("From", props.get("from"))
-                # incident_table.add_row("To", props.get("to"))
+                incident_table.add_row("From", props.get("from"))
+                incident_table.add_row("To", props.get("to"))
         else:
             incident_table.add_row("Incidents", "[green]No incidents found in this area[/green]")
 
