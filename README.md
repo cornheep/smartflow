@@ -4,7 +4,9 @@
 </p>
 
 A barangay-level traffic monitoring system built as a hands-on project for learning **Python** and **API integration**.  
-This project uses the **TomTom Traffic API** to fetch **real-time traffic flow** and **incident data** for barangays in Santa Maria, Bulacan.  
+This project uses the **TomTom Traffic API** to fetch **real-time traffic flow** and **incident data** for barangays in Santa Maria, Bulacan.
+
+This project supports **SDG 9(Industry, Innovation and Infrastructure)** by using innovation and technology to improve infrastructure, and it supports **SDG 11(Sustainable Cities and Communities)** by making cities more sustainable, inclusive, and resilient.
 
 The **CLI (Command-Line Interface)** application is made for the finals requirement on the course **Programing Language and Design** with the course code **CMPE 102** for the First Semester of SY 2025-2026.
 
