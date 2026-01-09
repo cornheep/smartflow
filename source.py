@@ -306,11 +306,9 @@ while True:
                 user_choice = input("Would you like to monitor another barangay? (yes/no): ").strip().lower()
                 if user_choice in ["yes", "y"]:
                     clearing()
-                    loading_animation()
                     break
                 elif user_choice in ["no", "n"]:
                     clearing()
-                    loading_animation()
                     print("Exiting the program. Stay safe!")
                     sys.exit(0)
                 else:
